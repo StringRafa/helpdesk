@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.panambystudio.helpdesk.domain.Tecnico;
 import com.panambystudio.helpdesk.repositories.TecnicoRepository;
+import com.panambystudio.helpdesk.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class TecnicoService {
@@ -18,6 +19,6 @@ public class TecnicoService {
 		
 		Optional<Tecnico> obj = repository.findById(id);
 		
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 }
