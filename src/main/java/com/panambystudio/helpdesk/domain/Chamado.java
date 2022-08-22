@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.panambystudio.helpdesk.domain.enums.Prioridade;
 import com.panambystudio.helpdesk.domain.enums.Status;
