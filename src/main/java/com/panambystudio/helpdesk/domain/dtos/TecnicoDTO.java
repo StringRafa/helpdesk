@@ -11,12 +11,10 @@ import com.panambystudio.helpdesk.domain.Tecnico;
 import com.panambystudio.helpdesk.domain.enums.Perfil;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class TecnicoDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +26,11 @@ public class TecnicoDTO implements Serializable{
 	protected Set<Integer> perfis = new HashSet<>();	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
+	
+	public TecnicoDTO() {
+		super();
+		addPerfil(Perfil.CLIENTE);
+	}	
 	
 	public TecnicoDTO(Tecnico obj) {
 		super();
@@ -46,5 +49,5 @@ public class TecnicoDTO implements Serializable{
 
 	public void addPerfil(Perfil perfil) {
 		this.perfis.add(perfil.getCodigo());
-	}	
+	}
 }
