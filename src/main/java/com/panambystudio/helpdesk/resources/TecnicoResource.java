@@ -43,7 +43,7 @@ public class TecnicoResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Tecnico> create(@RequestBody TecnicoDTO objDTO){
+	public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO objDTO){
 		
 		Tecnico newObj = service.create(objDTO);
 		
