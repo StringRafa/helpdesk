@@ -1,6 +1,7 @@
 package com.panambystudio.helpdesk.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,12 @@ public class ResourceExceptionHandler {
 		}
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<StandardError> validationErrors(ConstraintViolationException ex, HttpServletRequest request){
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StandardError(System.currentTimeMillis(),
+				HttpStatus.BAD_REQUEST.value(), "Validation error", ex.getConstraintViolations().toString(), request.getRequestURI()));
 	}
 }

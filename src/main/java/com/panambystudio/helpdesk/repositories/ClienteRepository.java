@@ -2,8 +2,8 @@ package com.panambystudio.helpdesk.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.panambystudio.helpdesk.domain.Pessoa;
+import com.panambystudio.helpdesk.domain.Cliente;
 
-public interface ClienteRepository extends JpaRepository<Pessoa, Integer>{
+public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
 }

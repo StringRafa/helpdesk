@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.panambystudio.helpdesk.domain.Tecnico;
+import com.panambystudio.helpdesk.domain.Cliente;
 import com.panambystudio.helpdesk.domain.enums.Perfil;
 
 import lombok.Getter;
@@ -19,14 +19,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TecnicoDTO implements Serializable{
+public class ClienteDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	protected Integer id;
 	
 	@NotNull(message = "O campo NOME é obrigatório.")
 	protected String nome;
-
+	
 	@CPF
 	@NotNull(message = "O campo CPF é obrigatório.")
 	protected String cpf;
@@ -42,12 +42,12 @@ public class TecnicoDTO implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
 	
-	public TecnicoDTO() {
+	public ClienteDTO() {
 		super();
 		addPerfil(Perfil.CLIENTE);
 	}	
 	
-	public TecnicoDTO(Tecnico obj) {
+	public ClienteDTO(Cliente obj) {
 		super();
 		this.id = obj.getId();
 		this.nome = obj.getNome();
