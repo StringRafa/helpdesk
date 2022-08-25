@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.panambystudio.helpdesk.domain.Chamado;
+import com.panambystudio.helpdesk.domain.Cliente;
+import com.panambystudio.helpdesk.domain.Tecnico;
 import com.panambystudio.helpdesk.domain.dtos.ChamadoDTO;
+import com.panambystudio.helpdesk.domain.enums.Prioridade;
+import com.panambystudio.helpdesk.domain.enums.Status;
 import com.panambystudio.helpdesk.repositories.ChamadoRepository;
 import com.panambystudio.helpdesk.services.exceptions.ObjectNotFoundException;
 
@@ -17,6 +21,12 @@ public class ChamadoServiceImpl implements ChamadoService{
 
 	@Autowired
 	private ChamadoRepository repository;
+	
+	@Autowired
+	private TecnicoService tecnicoService;
+	
+	@Autowired
+	private ClienteService clienteService;
 	
 	public Chamado findById(Integer id) {
 		
@@ -31,5 +41,29 @@ public class ChamadoServiceImpl implements ChamadoService{
 		List<Chamado> chamado = repository.findAll();
 		
 		return chamado.stream().map(obj -> new ChamadoDTO(obj)).collect(Collectors.toList());
+	}
+
+	@Override
+	public Chamado create(ChamadoDTO objDTO) {		
+		return repository.save(newChamado(objDTO));
+	}
+	
+	private Chamado newChamado(ChamadoDTO obj) {
+		Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
+		Cliente cliente = clienteService.findById(obj.getCliente());
+		
+		Chamado chamado = new Chamado();
+		if(obj.getId() != null) {
+			chamado.setId(obj.getId());
+		}
+		
+		chamado.setTecnico(tecnico);
+		chamado.setCliente(cliente);
+		chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
+		chamado.setStatus(Status.toEnum(obj.getStatus()));
+		chamado.setTitulo(obj.getTitulo());
+		chamado.setObservacoes(obj.getObservacoes());
+		
+		return chamado;
 	}
 }

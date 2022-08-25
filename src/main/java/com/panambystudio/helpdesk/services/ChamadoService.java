@@ -9,4 +9,5 @@ public interface ChamadoService {
 
 	Chamado findById(Integer id);
 	List<ChamadoDTO> findAll();	
+	Chamado create(ChamadoDTO objDTO);
 }
