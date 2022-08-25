@@ -33,6 +33,7 @@ public class ClienteServiceImpl implements ClienteService{
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
+	@Override
 	public List<ClienteDTO> findAll() {
 		
 		List<Cliente> cliente = repository.findAll();
@@ -40,6 +41,7 @@ public class ClienteServiceImpl implements ClienteService{
 		return cliente.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
 	}
 
+	@Override
 	public Cliente create(ClienteDTO objDTO) {
 		
 		objDTO.setId(null);
@@ -64,6 +66,7 @@ public class ClienteServiceImpl implements ClienteService{
 		}
 	}
 
+	@Override
 	public Cliente update(Integer id, @Valid ClienteDTO objDTO) {
 		
 		objDTO.setId(id);
@@ -77,6 +80,7 @@ public class ClienteServiceImpl implements ClienteService{
 		return repository.save(oldObj);
 	}
 
+	@Override
 	public void delete(Integer id) {
 		
 		Cliente obj = findById(id);

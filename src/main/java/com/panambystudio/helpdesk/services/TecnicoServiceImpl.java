@@ -26,6 +26,7 @@ public class TecnicoServiceImpl implements TecnicoService{
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
+	@Override
 	public Tecnico findById(Integer id) {
 		
 		Optional<Tecnico> obj = repository.findById(id);
@@ -33,6 +34,7 @@ public class TecnicoServiceImpl implements TecnicoService{
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
+	@Override
 	public List<TecnicoDTO> findAll() {
 		
 		List<Tecnico> tecnico = repository.findAll();
@@ -40,6 +42,7 @@ public class TecnicoServiceImpl implements TecnicoService{
 		return tecnico.stream().map(obj -> new TecnicoDTO(obj)).collect(Collectors.toList());
 	}
 
+	@Override
 	public Tecnico create(TecnicoDTO objDTO) {
 		
 		objDTO.setId(null);
@@ -64,6 +67,7 @@ public class TecnicoServiceImpl implements TecnicoService{
 		}
 	}
 
+	@Override
 	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
 		
 		objDTO.setId(id);
@@ -77,6 +81,7 @@ public class TecnicoServiceImpl implements TecnicoService{
 		return repository.save(oldObj);
 	}
 
+	@Override
 	public void delete(Integer id) {
 		
 		Tecnico obj = findById(id);

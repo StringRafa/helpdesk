@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,16 +27,25 @@ public class ChamadoResource {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ChamadoDTO> findById(@PathVariable Integer id){
+		
 		return ResponseEntity.ok().body(new ChamadoDTO(service.findById(id)));
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<ChamadoDTO>> findAll(){
+		
 		return ResponseEntity.ok().body(service.findAll());
 	}
 	
 	@PostMapping
 	public ResponseEntity<ChamadoDTO> create(@Valid @RequestBody ChamadoDTO objDTO){
+		
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(service.create(objDTO).getId()).toUri()).build();
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<ChamadoDTO> update(@PathVariable Integer id, @Valid @RequestBody ChamadoDTO objDTO){
+		
+		return ResponseEntity.ok().body(new ChamadoDTO(service.update(id, objDTO)));
 	}
 }

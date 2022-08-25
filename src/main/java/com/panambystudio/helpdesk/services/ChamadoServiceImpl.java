@@ -1,8 +1,11 @@
 package com.panambystudio.helpdesk.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +60,10 @@ public class ChamadoServiceImpl implements ChamadoService{
 			chamado.setId(obj.getId());
 		}
 		
+		if(obj.getStatus().equals(2)) {
+			chamado.setDataFechamento(LocalDate.now());
+		}
+		
 		chamado.setTecnico(tecnico);
 		chamado.setCliente(cliente);
 		chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
@@ -65,5 +72,17 @@ public class ChamadoServiceImpl implements ChamadoService{
 		chamado.setObservacoes(obj.getObservacoes());
 		
 		return chamado;
+	}
+
+	@Override
+	public Chamado update(Integer id, @Valid ChamadoDTO objDTO) {
+		
+		objDTO.setId(id);
+		
+		Chamado oldObj = findById(id);
+		
+		oldObj = newChamado(objDTO);
+		
+		return repository.save(oldObj);
 	}
 }
