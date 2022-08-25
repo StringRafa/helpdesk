@@ -2,6 +2,7 @@ package com.panambystudio.helpdesk.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -32,8 +33,11 @@ public class ClienteServiceImpl implements ClienteService{
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
-	public List<Cliente> findAll() {
-		return repository.findAll();
+	public List<ClienteDTO> findAll() {
+		
+		List<Cliente> cliente = repository.findAll();
+		
+		return cliente.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
 	}
 
 	public Cliente create(ClienteDTO objDTO) {

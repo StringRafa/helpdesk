@@ -10,7 +10,7 @@ import com.panambystudio.helpdesk.domain.dtos.ClienteDTO;
 public interface ClienteService {
 
 	Cliente findById(Integer id);
-	List<Cliente> findAll();
+	List<ClienteDTO> findAll();
 	Cliente create(ClienteDTO objDTO);
 	Cliente update(Integer id, @Valid ClienteDTO objDTO);
 	void delete(Integer id);

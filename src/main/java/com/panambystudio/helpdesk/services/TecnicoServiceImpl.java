@@ -2,6 +2,7 @@ package com.panambystudio.helpdesk.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -32,8 +33,11 @@ public class TecnicoServiceImpl implements TecnicoService{
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
-	public List<Tecnico> findAll() {
-		return repository.findAll();
+	public List<TecnicoDTO> findAll() {
+		
+		List<Tecnico> tecnico = repository.findAll();
+		
+		return tecnico.stream().map(obj -> new TecnicoDTO(obj)).collect(Collectors.toList());
 	}
 
 	public Tecnico create(TecnicoDTO objDTO) {

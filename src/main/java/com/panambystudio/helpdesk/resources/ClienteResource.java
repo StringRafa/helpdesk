@@ -1,7 +1,6 @@
 package com.panambystudio.helpdesk.resources;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -36,7 +35,7 @@ public class ClienteResource {
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> findAll(){
 		
-		return ResponseEntity.ok().body(service.findAll().stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList()));
+		return ResponseEntity.ok().body(service.findAll());
 	}
 	
 	@PostMapping
