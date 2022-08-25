@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.panambystudio.helpdesk.domain.Pessoa;
@@ -25,6 +26,9 @@ public class TecnicoServiceImpl implements TecnicoService{
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	@Override
 	public Tecnico findById(Integer id) {
@@ -46,6 +50,8 @@ public class TecnicoServiceImpl implements TecnicoService{
 	public Tecnico create(TecnicoDTO objDTO) {
 		
 		objDTO.setId(null);
+		
+		objDTO.setSenha(encoder.encode(objDTO.getSenha()));
 		
 		validaPorCpfEEmail(objDTO);
 		
