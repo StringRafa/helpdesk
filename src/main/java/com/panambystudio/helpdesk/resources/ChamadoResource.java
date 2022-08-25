@@ -1,5 +1,7 @@
 package com.panambystudio.helpdesk.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,5 +22,10 @@ public class ChamadoResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ChamadoDTO> findById(@PathVariable Integer id){
 		return ResponseEntity.ok().body(new ChamadoDTO(service.findById(id)));
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<ChamadoDTO>> findAll(){
+		return ResponseEntity.ok().body(service.findAll());
 	}
 }
