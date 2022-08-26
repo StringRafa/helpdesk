@@ -14,9 +14,12 @@ import com.panambystudio.helpdesk.domain.Chamado;
 import com.panambystudio.helpdesk.domain.Cliente;
 import com.panambystudio.helpdesk.domain.Tecnico;
 import com.panambystudio.helpdesk.domain.dtos.ChamadoDTO;
+import com.panambystudio.helpdesk.domain.enums.Perfil;
 import com.panambystudio.helpdesk.domain.enums.Prioridade;
 import com.panambystudio.helpdesk.domain.enums.Status;
 import com.panambystudio.helpdesk.repositories.ChamadoRepository;
+import com.panambystudio.helpdesk.security.UserSS;
+import com.panambystudio.helpdesk.services.exceptions.AuthorizationException;
 import com.panambystudio.helpdesk.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -34,6 +37,15 @@ public class ChamadoServiceImpl implements ChamadoService{
 	public Chamado findById(Integer id) {
 		
 		Optional<Chamado> obj = repository.findById(id);
+		
+		UserSS user = UserService.authenticated();
+		
+		if(obj.isPresent()) {
+			
+			if (user == null || !user.hasRole(Perfil.TECNICO) && !obj.get().getCliente().getId().equals(user.getId())) {
+				throw new AuthorizationException("Acesso negado");
+			}
+		}
 		
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}

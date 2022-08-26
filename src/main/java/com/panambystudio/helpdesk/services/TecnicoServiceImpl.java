@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import com.panambystudio.helpdesk.domain.Pessoa;
 import com.panambystudio.helpdesk.domain.Tecnico;
 import com.panambystudio.helpdesk.domain.dtos.TecnicoDTO;
+import com.panambystudio.helpdesk.domain.enums.Perfil;
 import com.panambystudio.helpdesk.repositories.PessoaRepository;
 import com.panambystudio.helpdesk.repositories.TecnicoRepository;
+import com.panambystudio.helpdesk.security.UserSS;
+import com.panambystudio.helpdesk.services.exceptions.AuthorizationException;
 import com.panambystudio.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.panambystudio.helpdesk.services.exceptions.ObjectNotFoundException;
 
@@ -32,6 +35,11 @@ public class TecnicoServiceImpl implements TecnicoService{
 	
 	@Override
 	public Tecnico findById(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		
 		Optional<Tecnico> obj = repository.findById(id);
 		

@@ -33,6 +33,7 @@ public class TecnicoResource {
 		return ResponseEntity.ok().body(new TecnicoDTO(service.findById(id)));
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<TecnicoDTO>> findAll(){
 		

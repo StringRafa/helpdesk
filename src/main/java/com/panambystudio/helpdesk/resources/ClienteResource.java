@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,24 +33,28 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(new ClienteDTO(service.findById(id)));
 	}
 	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> findAll(){
 		
 		return ResponseEntity.ok().body(service.findAll());
 	}
 	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@PostMapping
 	public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDTO){
 		
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(service.create(objDTO).getId()).toUri()).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDTO){
 		
 		return ResponseEntity.ok().body(new ClienteDTO(service.update(id, objDTO)));
 	}
 	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<ClienteDTO> delete(@PathVariable Integer id){
 		

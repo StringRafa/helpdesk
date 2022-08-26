@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import com.panambystudio.helpdesk.domain.Cliente;
 import com.panambystudio.helpdesk.domain.Pessoa;
 import com.panambystudio.helpdesk.domain.dtos.ClienteDTO;
+import com.panambystudio.helpdesk.domain.enums.Perfil;
 import com.panambystudio.helpdesk.repositories.ClienteRepository;
 import com.panambystudio.helpdesk.repositories.PessoaRepository;
+import com.panambystudio.helpdesk.security.UserSS;
+import com.panambystudio.helpdesk.services.exceptions.AuthorizationException;
 import com.panambystudio.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.panambystudio.helpdesk.services.exceptions.ObjectNotFoundException;
 
@@ -31,6 +34,11 @@ public class ClienteServiceImpl implements ClienteService{
 	private BCryptPasswordEncoder encoder;
 	
 	public Cliente findById(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.TECNICO) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		
 		Optional<Cliente> obj = repository.findById(id);
 		
